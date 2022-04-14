@@ -21,7 +21,7 @@ var generateRandomNumber = function () {
 
 // ========================================================================================================================================
 
-// Helper function to generate player's player's combined dice value based on dice order
+// Helper function to generate player's combined dice value based on dice order
 var generateDiceNumber = function (diceOrderNumber, diceRollOne, diceRollTwo) {
   if (diceOrderNumber == 1) {
     playerDiceNumber = diceRollOne * 10 + diceRollTwo;
