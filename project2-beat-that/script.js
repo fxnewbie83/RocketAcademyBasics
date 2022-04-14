@@ -108,7 +108,7 @@ var checkDiceCombinedNumber = function (input) {
 
 // Main function for beat that game
 var main = function (input) {
-  // Check for game mode
+  // Provide welcome message and initial guide to play the game
   if (currentMode == "game selection mode" && input != 1 && input != 2) {
     myOutputValue = `Welcome to "Beat That!" <br/><br/> Please enter 1 to play based on Highest Combined Number Mode. <br/> Please enter 2 to play based on Lowest Combined Number Mode.`;
   } else if (currentMode == "game selection mode") {
