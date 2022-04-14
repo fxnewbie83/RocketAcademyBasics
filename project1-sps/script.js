@@ -35,7 +35,7 @@ var assignProgSelect = function () {
   return selection;
 };
 
-// Helper function to setup sps game win/lose/draw conditions
+// Helper function to setup sps game win/lose/draw condition
 var spsGame = function (spsGameInput) {
   var progRandomSelect = assignProgSelect();
   // convert user input in string to lower case
