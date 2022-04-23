@@ -62,15 +62,26 @@ The <html> element is known as the root element of a HTML page. All other elemen
     <!-- The <h1> element defines a large heading. There are 6 pre-set header elements, <h1> to <h6> -->
     <h1 id="header">🚀 Basics Project 3: Blackjack 🚀</h1>
     <!-- The <div> tag defines a division or a section in an HTML document, and is commonly use as a "container" for nested HTML elements. -->
-    <div class="container">
+    <div class="container" style="background-color: powderblue;">
       <!-- The <p> tag defines a paragraph element. -->
+
+          <div id="container">
+              <p style="color:red;">Hello, Welcome to Blackjack!</p>
+              <p style="color:red;">Click on Submit to start the game whenever you are ready.</p>
+              <p style="color:red;">Click on Hit if total card value is below 17 or take a risk if it's above 17.</p>
+              <p style="color:red;">Click on Stand if ready to check on winner.</p>
+              <p style="color:red;">Otherwise enjoy the game and have all the fun! 😁</p>
+              <br/>
+
       <p>Input:</p>
       <!-- The self-closing <input /> tag represents a field for a user to enter input. -->
       <input id="input-field" />
       <!-- The self-closing <br /> tag represents a line break - a line's worth of spacing before dispalying the next element. -->
       <br />
       <!-- The <button> tag represents.. you guessed it! a button. -->
-      <button id="submit-button">Submit</button>
+      <button style="margin-right:24px; color: blueviolet" id="submit-button">Submit</button>
+      <button style="margin-right:24px; color: blueviolet" id="hit-button">Hit</button>
+      <button style="margin-right:24px; color: blueviolet" id="stand-button">Stand</button>
       <p>Output:</p>
       <div class="output-div" id="output-div"></div>
     </div>

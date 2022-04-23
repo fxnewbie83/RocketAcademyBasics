@@ -5,11 +5,24 @@ var main = function (input) {
 };
 */
 
+/*
+// ========================================================================================================================================
+
+// Global variables to initialize the variables
+var myOutputValue = "";
+var currentMode = "WELCOME MESSAGE MODE";
+var numberOfPlayers = 0;
+var cardValue = 0;
+
+// ========================================================================================================================================
+
+// Initialise a new card desk
+
 var makeDeck = function () {
   // Initialise an empty deck array
   var cardDeck = [];
   // Initialise an array of the 4 suits in our deck. We will loop over this array.
-  var suits = ["hearts", "diamonds", "clubs", "spades"];
+  var suits = ["Diamonds", "Clubs", "Hearts", "Spades"];
 
   // Loop over the suits array
   for (var i = 0; i < suits.length; i += 1) {
@@ -25,13 +38,13 @@ var makeDeck = function () {
 
       // If rank is 1, 11, 12, or 13, set cardName to the ace or face card's name
       if (cardName == 1) {
-        cardName = "ace";
+        cardName = "Ace";
       } else if (cardName == 11) {
-        cardName = "jack";
+        cardName = "Jack";
       } else if (cardName == 12) {
-        cardName = "queen";
+        cardName = "Queen";
       } else if (cardName == 13) {
-        cardName = "king";
+        cardName = "King";
       }
 
       // Create a new card with the current name, suit, and rank
@@ -46,277 +59,133 @@ var makeDeck = function () {
     }
   }
 
+  // Run through the card deck and replace the rank of jack/queen/king to 10
+  for (i = 0; i < cardDeck.length; i += 1) {
+    if (
+      cardDeck[i].name == "Jack" ||
+      cardDeck[i].name == "Queen" ||
+      cardDeck[i].name == "King"
+    ) {
+      cardDeck[i].rank = 10;
+    }
+    if (cardDeck[i].name == "Ace") {
+      cardDeck[i].rank = 11;
+    }
+  }
+
   console.log(cardDeck);
   // Return the completed card deck
   return cardDeck;
 };
 
-var deck = [
-  {
-    name: "ace",
-    suit: "hearts",
-    rank: 1
-  },
-  {
-    name: "2",
-    suit: "hearts",
-    rank: 2
-  },
-  {
-    name: "3",
-    suit: "hearts",
-    rank: 3
-  },
-  {
-    name: "4",
-    suit: "hearts",
-    rank: 4
-  },
-  {
-    name: "5",
-    suit: "hearts",
-    rank: 5
-  },
-  {
-    name: "6",
-    suit: "hearts",
-    rank: 6
-  },
-  {
-    name: "7",
-    suit: "hearts",
-    rank: 7
-  },
-  {
-    name: "8",
-    suit: "hearts",
-    rank: 8
-  },
-  {
-    name: "9",
-    suit: "hearts",
-    rank: 9
-  },
-  {
-    name: "10",
-    suit: "hearts",
-    rank: 10
-  },
-  {
-    name: "jack",
-    suit: "hearts",
-    rank: 11
-  },
-  {
-    name: "queen",
-    suit: "hearts",
-    rank: 12
-  },
-  {
-    name: "king",
-    suit: "hearts",
-    rank: 13
-  },
-  {
-    name: "ace",
-    suit: "diamonds",
-    rank: 1
-  },
-  {
-    name: "2",
-    suit: "diamonds",
-    rank: 2
-  },
-  {
-    name: "3",
-    suit: "diamonds",
-    rank: 3
-  },
-  {
-    name: "4",
-    suit: "diamonds",
-    rank: 4
-  },
-  {
-    name: "5",
-    suit: "diamonds",
-    rank: 5
-  },
-  {
-    name: "6",
-    suit: "diamonds",
-    rank: 6
-  },
-  {
-    name: "7",
-    suit: "diamonds",
-    rank: 7
-  },
-  {
-    name: "8",
-    suit: "diamonds",
-    rank: 8
-  },
-  {
-    name: "9",
-    suit: "diamonds",
-    rank: 9
-  },
-  {
-    name: "10",
-    suit: "diamonds",
-    rank: 10
-  },
-  {
-    name: "jack",
-    suit: "diamonds",
-    rank: 11
-  },
-  {
-    name: "queen",
-    suit: "diamonds",
-    rank: 12
-  },
-  {
-    name: "king",
-    suit: "diamonds",
-    rank: 13
-  },
-  {
-    name: "ace",
-    suit: "clubs",
-    rank: 1
-  },
-  {
-    name: "2",
-    suit: "clubs",
-    rank: 2
-  },
-  {
-    name: "3",
-    suit: "clubs",
-    rank: 3
-  },
-  {
-    name: "4",
-    suit: "clubs",
-    rank: 4
-  },
-  {
-    name: "5",
-    suit: "clubs",
-    rank: 5
-  },
-  {
-    name: "6",
-    suit: "clubs",
-    rank: 6
-  },
-  {
-    name: "7",
-    suit: "clubs",
-    rank: 7
-  },
-  {
-    name: "8",
-    suit: "clubs",
-    rank: 8
-  },
-  {
-    name: "9",
-    suit: "clubs",
-    rank: 9
-  },
-  {
-    name: "10",
-    suit: "clubs",
-    rank: 10
-  },
-  {
-    name: "jack",
-    suit: "clubs",
-    rank: 11
-  },
-  {
-    name: "queen",
-    suit: "clubs",
-    rank: 12
-  },
-  {
-    name: "king",
-    suit: "clubs",
-    rank: 13
-  },
-  {
-    name: "ace",
-    suit: "spades",
-    rank: 1
-  },
-  {
-    name: "2",
-    suit: "spades",
-    rank: 2
-  },
-  {
-    name: "3",
-    suit: "spades",
-    rank: 3
-  },
-  {
-    name: "4",
-    suit: "spades",
-    rank: 4
-  },
-  {
-    name: "5",
-    suit: "spades",
-    rank: 5
-  },
-  {
-    name: "6",
-    suit: "spades",
-    rank: 6
-  },
-  {
-    name: "7",
-    suit: "spades",
-    rank: 7
-  },
-  {
-    name: "8",
-    suit: "spades",
-    rank: 8
-  },
-  {
-    name: "9",
-    suit: "spades",
-    rank: 9
-  },
-  {
-    name: "10",
-    suit: "spades",
-    rank: 10
-  },
-  {
-    name: "jack",
-    suit: "spades",
-    rank: 11
-  },
-  {
-    name: "queen",
-    suit: "spades",
-    rank: 12
-  },
-  {
-    name: "king",
-    suit: "spades",
-    rank: 13
+// ========================================================================================================================================
+
+// Get a random index ranging from 0 (inclusive) to max (exclusive).
+var getRandomIndex = function (max) {
+  return Math.floor(Math.random() * max);
+};
+
+// ========================================================================================================================================
+
+// Shuffle the elements in the cardDeck array
+var shuffleCards = function (cardDeck) {
+  // Loop over the card deck array once
+  var currentIndex = 0;
+  while (currentIndex < cardDeck.length) {
+    // Select a random index in the deck
+    var randomIndex = getRandomIndex(cardDeck.length);
+    // Select the card that corresponds to randomIndex
+    var randomCard = cardDeck[randomIndex];
+    // Select the card that corresponds to currentIndex
+    var currentCard = cardDeck[currentIndex];
+    // Swap positions of randomCard and currentCard in the deck
+    cardDeck[currentIndex] = randomCard;
+    cardDeck[randomIndex] = currentCard;
+    // Increment currentIndex
+    currentIndex = currentIndex + 1;
   }
-];
+  // Return the shuffled deck
+  return cardDeck;
+};
+
+// ========================================================================================================================================
+
+// Shuffle the deck and save it in a new variable shuffledDeck to communicate that we have shuffled the deck.
+var shuffledDeck = shuffleCards(makeDeck());
+
+// ========================================================================================================================================
+
+// Helper function for initial dealing of 2 cards each from shuffled deck to computer and players
+var dealCardsCheck = function () {
+  // Draw 2 cards from the top of the deck
+
+  for (var index = 0; index <= numberOfPlayers; index += 1) {
+    var dealedCardOne = shuffledDeck.pop();
+    var dealedCardTwo = shuffledDeck.pop();
+    cardValue = dealedCardOne.rank + dealedCardTwo.rank;
+
+    if (index == 0) {
+      myOutputValue = `Dealer has ${dealedCardOne.name} of ${dealedCardOne.suit}. <br/>`;
+    }
+
+    if (index >= 1) {
+      console.log(dealedCardOne, dealedCardTwo);
+      myOutputValue += `<br/> Player ${index} has ${dealedCardOne.name} of ${dealedCardOne.suit} and ${dealedCardTwo.name} of ${dealedCardTwo.suit}. <br/> Total value is ${cardValue}.<br/>`;
+    }
+  }
+
+  return myOutputValue;
+};
+
+// ========================================================================================================================================
+
+// The player goes first, and decides if they want to hit (draw a card) or stand (end their turn).
+// The dealer has to hit if their hand is below 17.
+// Each players' score is the total of their card ranks. Jacks/Queen/Kings are 10. Aces can be 1 or 11.
+// The player who is closer to, but not above 21 wins the hand.
 
 var main = function (input) {
-  var test = makeDeck();
-  test = test[1].rank;
-  deck = deck[1].rank;
-  return deck;
+  // Provide welcome message and initial guide to play the game
+  if (currentMode == "WELCOME MESSAGE MODE") {
+    currentMode = "NUMBER OF PLAYERS MODE";
+    //return `Welcome to "Blackjack!" <br/><br/> Click "Submit" to start dealing the cards.`;
+    return `Welcome to "Blackjack!" <br/><br/> Please enter a number to determine the number of players to play the game.`;
+  }
+
+  // Check for number of players
+  if (currentMode == "NUMBER OF PLAYERS MODE") {
+    if (Number.isNaN(Number(input)) || input == "" || input == 0 || input > 7) {
+      return `Your input is invalid. Please enter a number, 1 to 7 to determine the number of players to play the game with the dealer.`;
+    } else {
+      numberOfPlayers = Number(input);
+      currentMode = "DEAL CARDS AND CHECK WIN MODE";
+      return `There will be ${input} players to play the game. <br/><br/> Click "Submit" to start dealing the cards.`;
+    }
+  }
+
+  // Dealing of cards to computer and players and check for Blackjack
+  if (currentMode == "DEAL CARDS AND CHECK WIN MODE") {
+    var DealCards = dealCardsCheck();
+    return DealCards;
+  }
+
+  return myOutputValue;
+};
+*/
+
+// ========================================================================================================================================
+
+var myButtonClicked = function () {
+  var containerColor = document.querySelector(".container");
+  containerColor.style.backgroundColor = "Green";
+};
+
+var button = document.querySelector("#submit-button");
+
+document.querySelector(".container");
+button.addEventListener("click", myButtonClicked);
+
+var main = function (input) {
+  var myOutputValue = "hello world";
+  return myOutputValue;
 };
