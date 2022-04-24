@@ -7,6 +7,8 @@ var computerTwoCard = {};
 var playerTwoCard = {};
 var computerCardValue = 0;
 var playerCardValue = 0;
+
+// Getting the button elements from index.html
 var output = document.querySelector("#output-div");
 var submitButton = document.querySelector("#submit-button");
 var hitButton = document.getElementById("hit-button");
