@@ -14,7 +14,7 @@ var submitButton = document.querySelector("#submit-button");
 var hitButton = document.getElementById("hit-button");
 var standButton = document.getElementById("stand-button");
 
-// To disable hit and stand button intially
+// To disable hit and stand button intially.
 hitButton.disabled = true;
 standButton.disabled = true;
 
