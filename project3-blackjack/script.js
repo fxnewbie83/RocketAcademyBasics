@@ -1,4 +1,4 @@
-// Global variables to initialize the variables
+// Global variables to initialize the variable
 var myOutputValue = "";
 var currentMode = "WELCOME MESSAGE MODE";
 var computerOneCard = {};
