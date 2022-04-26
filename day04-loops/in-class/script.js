@@ -68,101 +68,402 @@ var emojiOutlineSquareMain = function (input) {
 
 // ========================================================================================================================================
 
-// Complete the Base: Multi-Dice Game exercise below with multiDiceBaseMain as the main function.
-
-// Create a dice-guessing game with a variable number of dice rolls determined by the user.
-// The game will have 2 modes.
-// In the 1st mode, the user will enter the number of dice they wish to roll.
-// In the 2nd mode, the user will enter a guess that will apply to all dice rolls.
-// For example, if the user has chosen to roll 2 dice in Mode 1 and guesses 4 in Mode 2, that guess of 4 will apply to both Dice 1 and Dice 2.
-// After the user guesses, the program will run a loop where the number of iterations is the number of dice rolls from Mode 1.
-// Each loop iteration will roll a dice and verify if the user has won.
-// If the user guesses correctly for any of the dice rolls, the user wins.
-// The game keeps track of and outputs the overall win-loss record.
-
-// Helper function to generate random number for dice roll
-var generateDiceNumber = function () {
-  var randomDiceNumber = Math.floor(Math.random() * 6) + 1;
-  return randomDiceNumber;
-};
-
-// Global variables to initialise the variables used in main function
-var currentMode = "mode1";
-var myOutputValue = "";
-var requiredNumberOfDice = 0;
-var rollDiceNumber = [];
-
-var multiDiceBaseMain = function (input) {
-  // Mode 1 for user to enter the number of dice they wish to roll
-
-  if (currentMode == "mode1") {
-    requiredNumberOfDice = input;
-    myOutputValue = `You wish to roll ${requiredNumberOfDice} dice. <br/> Please guess a number from 1 to 6 to start the game.`;
-    currentMode = "mode2";
+// Complete the More Comfortable: Emoji Drawing Center Square exercise below with emojiCenterSquareMain as the main function.
+var emojiCenterSquareMain = function (input) {
+  var myOutputValue = "";
+  // sideLength represents the length of each side of the square
+  var sideLength = Number(input);
+  // Do not accept side lengths that are not odd, because
+  // non-odd side lengths cannot have a centre character.
+  if (sideLength % 2 != 1) {
+    return "Please enter an odd number for side length";
   }
-
-  currentMode == "mode2";
-  rollDiceNumber = [];
-
-  for (var index = 0; index < requiredNumberOfDice; index += 1) {
-    var rollDiceNumber = generateDiceNumber();
-    rollDiceNumber.push(rollDiceNumber);
-    // if (rollDiceNumber == input) {
-    //   hasUserWon = true;
-    // }
+  for (var outerCounter = 0; outerCounter < sideLength; outerCounter += 1) {
+    for (var innerCounter = 0; innerCounter < sideLength; innerCounter += 1) {
+      var halfSideLengthIndex = Math.floor(sideLength / 2);
+      // If current iteration represents a border element, draw ✊ instead.
+      if (
+        outerCounter == 0 ||
+        outerCounter == sideLength - 1 ||
+        innerCounter == 0 ||
+        innerCounter == sideLength - 1
+      ) {
+        myOutputValue += "✊";
+        // If current iteration represents the middle element, draw 😁.
+      } else if (
+        outerCounter === halfSideLengthIndex &&
+        innerCounter === halfSideLengthIndex
+      ) {
+        myOutputValue += "😁";
+        // Add a 👍 to the current row
+      } else {
+        myOutputValue += "👍";
+      }
+    }
+    // Insert a line break to start a new row
+    myOutputValue += "<br>";
   }
-
-  // Mode 2 for user to enter a guess that will apply to all dice rolls.
-  // else if (currentMode == "mode2") {
-  //   if (Number.isNaN(Number(input)) == true || input < 1 || input > 6) {
-  //     myOutputValue = "Please guess a number from 1 to 6.";
-  //     return myOutputValue;
-  //   }
-  //   if (input >= 1 && input <= 6) {
-  //     console.log(requiredNumberOfDice);
-  //     var rollDiceNumber = [];
-  //     for (var index = 0; index < requiredNumberOfDice; index += 1) {
-  //       rollDiceNumber = generateDiceNumber();
-  //       rollDiceNumber.push(rollDiceNumber);
-
-  //       myOutputValue = rollDiceNumber;
-  //       // if (input == rollDiceNumber) {
-  //       //   myOutputValue = `You guessed a ${input} and rolled a ${rollDiceNumber}. <br/> You win.`;
-  //       // } else if (input != rollDiceNumber) {
-  //       //   myOutputValue = `You guessed a ${input} and rolled a ${rollDiceNumber}. <br/> You lose. Please try again`;
-  //       // }
-  //     }
-  //   }
-  // }
-
   return myOutputValue;
 };
 
 // ========================================================================================================================================
 
-/*
+// Base: Multi-Dice Game
+// Declare game mode constant variables
+// Constants variables are typically in SCREAM_CASE
+var GAME_MODE_ENTER_NUM_DICE = "ENTER_NUM_DICE";
+var GAME_MODE_ENTER_GUESS = "ENTER_GUESS";
 
-var emojiCenterSquareMain = function (input) {
-  // Complete the More Comfortable: Emoji Drawing Center Square exercise below with emojiCenterSquareMain as the main function.
-  var myOutputValue = 'hello world';
-  return myOutputValue;
+// Initialise game mode to enter num dice mode
+var gameMode = GAME_MODE_ENTER_NUM_DICE;
+
+// Keep track of variables needed for a single round
+var diceRolls = [];
+var hasUserWon = false;
+var numDice;
+
+// Keep track of variables needed across multiple rounds
+var numRoundsPlayed = 0;
+var numWins = 0;
+
+// Return a number from 1-6
+var rollDice = function () {
+  return Math.floor(Math.random() * 6) + 1;
 };
 
+var multiDiceBaseMain = function (input) {
+  // Complete the Base: Multi-Dice Game exercise below with multiDiceBaseMain as the main function.
+  if (gameMode == GAME_MODE_ENTER_NUM_DICE) {
+    numDice = Number(input);
+    gameMode = GAME_MODE_ENTER_GUESS;
+    return `You have chosen to roll ${numDice} dice. Please enter a single guess for all of these dice.`;
+  }
+  // The following code assumes ENTER_GUESS game mode
+  // because we return at the end of the previous if statement
+  var userGuess = Number(input);
+  // Initialise diceRolls array to store dice rolls for this round
+  diceRolls = [];
+  // Initialise hasUserWon to false for this round
+  hasUserWon = false;
+  // Increment number of games the user has played for win loss record
+  numRoundsPlayed += 1;
+  // Roll numDice number of dice
+  for (var counter = 0; counter < numDice; counter += 1) {
+    var diceRoll = rollDice();
+    // Store the current dice roll in diceRolls to show the user later
+    diceRolls.push(diceRoll);
+    // If dice roll matches user guess, store that user has won
+    if (diceRoll == userGuess) {
+      hasUserWon = true;
+    }
+  }
+
+  // Increment win counter if user has won
+  if (hasUserWon) {
+    numWins += 1;
+  }
+
+  // After the round is over, reset mode to enter num dice so user can play again.
+  gameMode = GAME_MODE_ENTER_NUM_DICE;
+
+  // Save generic output for both win and loss conditions to avoid repeating code.
+  var numLosses = numRoundsPlayed - numWins;
+  var genericOutputPrefix = `You guessed ${userGuess} and the computer rolled ${diceRolls}.`;
+  var genericOutputSuffix = `
+    Your win-loss record is ${numWins}-${numLosses}. <br/><br/>
+    Please enter a number of dice to roll to start again.
+  `;
+  // If user has won, output win message.
+  if (hasUserWon) {
+    return `${genericOutputPrefix} You win! ${genericOutputSuffix}`;
+  }
+  // If user has not won, output lose message.
+  return `${genericOutputPrefix} You lose. ${genericOutputSuffix}`;
+};
+
+// ========================================================================================================================================
+
+// Complete the More Comfortable: Multi-Round Multi-Dice Game exercise below with multiDiceMultiRoundMain as the main function.
 var multiDiceMultiRoundMain = function (input) {
-  // Complete the More Comfortable: Multi-Round Multi-Dice Game exercise below with multiDiceMultiRoundMain as the main function.
-  var myOutputValue = 'hello world';
-  return myOutputValue;
+  if (gameMode == GAME_MODE_ENTER_NUM_DICE) {
+    numDice = Number(input);
+    gameMode = GAME_MODE_ENTER_GUESS;
+    return `You have chosen to roll ${numDice} dice. Please enter a single guess for all of these dice.`;
+  }
+  // The following code assumes ENTER_GUESS game mode
+  // because we return at the end of the previous if statement
+  var userGuess = Number(input);
+
+  // Store all dice rolls for each round so user can see how they won or lost.
+  var diceRollsForEachRound = [];
+
+  // Play numRounds rounds with a fixed number of dice and a fixed user guess
+  var roundCounter = 0;
+  for (var numRounds = 4; roundCounter < numRounds; roundCounter += 1) {
+    // Initialise diceRolls array to store dice rolls for this round
+    diceRolls = [];
+    // Initialise hasUserWon to false for this round
+    hasUserWon = false;
+    // Increment number of rounds the user has played for win loss record
+    numRoundsPlayed += 1;
+
+    // Roll numDice number of dice
+    for (var diceCounter = 0; diceCounter < numDice; diceCounter += 1) {
+      var diceRoll = rollDice();
+      // Store the current dice roll in diceRolls to show the user later
+      diceRolls.push(diceRoll);
+      // If dice roll matches user guess, store that user has won.
+      if (diceRoll == userGuess) {
+        hasUserWon = true;
+      }
+    }
+
+    // Push the populated dice rolls array into the dice rolls for each round array
+    diceRollsForEachRound.push(diceRolls);
+    // Increment win counter if user has won
+    if (hasUserWon) {
+      numWins += 1;
+    }
+  }
+
+  // After numRounds, reset mode to enter num dice so user can play again.
+  gameMode = GAME_MODE_ENTER_NUM_DICE;
+
+  // Output result and win-loss record.
+  var numLosses = numRoundsPlayed - numWins;
+  // .join converts an array to a string where each element is separated by the param to .join.
+  return `
+    You guessed ${userGuess} and the computer rolled ${diceRollsForEachRound.join(
+    " | "
+  )}. <br/><br/>
+    Your win-loss record is ${numWins}-${numLosses}. <br/><br/>
+    Please enter a number of dice to roll to start again.
+  `;
+};
+
+// ========================================================================================================================================
+
+// Complete the More Comfortable: Two Player Multi-Round Multi-Dice Game exercise below with multiDiceTwoPlayerMain as the main function.
+
+// Start with Player 1
+var currPlayer = 1;
+var player1NumRoundsPlayed = 0;
+var player1NumWins = 0;
+var player2NumRoundsPlayed = 0;
+var player2NumWins = 0;
+
+var incrementNumRoundsPlayed = function () {
+  if (currPlayer == 1) {
+    player1NumRoundsPlayed += 1;
+  } else {
+    player2NumRoundsPlayed += 1;
+  }
+};
+
+var incrementNumWins = function () {
+  if (currPlayer == 1) {
+    player1NumWins += 1;
+  } else {
+    player2NumWins += 1;
+  }
 };
 
 var multiDiceTwoPlayerMain = function (input) {
   // Complete the More Comfortable: Two Player Multi-Round Multi-Dice Game exercise below with multiDiceTwoPlayerMain as the main function.
-  var myOutputValue = 'hello world';
-  return myOutputValue;
+  if (gameMode == GAME_MODE_ENTER_NUM_DICE) {
+    numDice = Number(input);
+    gameMode = GAME_MODE_ENTER_GUESS;
+    return `Player ${currPlayer}: You have chosen to roll ${numDice} dice. Please enter a single guess for all of these dice.`;
+  }
+  // The following code assumes ENTER_GUESS game mode
+  // because we return at the end of the previous if statement
+  var userGuess = Number(input);
+
+  // Store all dice rolls for each round so user can see how they won or lost.
+  var diceRollsForEachRound = [];
+
+  // Play numRounds rounds with a fixed number of dice and a fixed user guess
+  var numRounds = 4;
+  for (var roundCounter = 0; roundCounter < numRounds; roundCounter += 1) {
+    // Initialise diceRolls array to store dice rolls for this round
+    diceRolls = [];
+    // Initialise hasUserWon to false for this round
+    hasUserWon = false;
+    // Increment number of rounds the user has played for win loss record
+    incrementNumRoundsPlayed();
+
+    // Roll numDice number of dice
+    for (var diceCounter = 0; diceCounter < numDice; diceCounter += 1) {
+      var diceRoll = rollDice();
+      // Store the current dice roll in diceRolls to show the user later
+      diceRolls.push(diceRoll);
+      // If dice roll matches user guess, store that user has won.
+      if (diceRoll == userGuess) {
+        hasUserWon = true;
+      }
+    }
+
+    // Push the populated dice rolls array into the dice rolls for each round array
+    diceRollsForEachRound.push(diceRolls);
+    // Increment win counter if user has won
+    if (hasUserWon) {
+      incrementNumWins();
+    }
+  }
+
+  // After numRounds, reset mode to enter num dice so user can play again.
+  gameMode = GAME_MODE_ENTER_NUM_DICE;
+
+  // Output result and win-loss record.
+  var player1NumLosses = player1NumRoundsPlayed - player1NumWins;
+  var player2NumLosses = player2NumRoundsPlayed - player2NumWins;
+  // If currPlayer is 1, nextPlayer is 2. If currPlayer is 2, nextPlayer is 1.
+  var nextPlayer = (currPlayer % 2) + 1;
+  // .join converts an array to a string where each element is separated by the param to .join.
+  var outputValue = `
+    Player ${currPlayer}: You guessed ${userGuess} and the computer rolled ${diceRollsForEachRound.join(
+    " | "
+  )}. <br/><br/>
+    Player 1 win-loss record is ${player1NumWins}-${player1NumLosses}. <br/><br/>
+    Player 2 win-loss record is ${player2NumWins}-${player2NumLosses}. <br/><br/>
+    Player ${nextPlayer}: Please enter a number of dice to roll for your turn.
+  `;
+
+  // Update currPlayer to nextPlayer before next turn
+  currPlayer = nextPlayer;
+
+  return outputValue;
+};
+
+// ========================================================================================================================================
+
+// Complete the More Comfortable: Multi-Player Multi-Round Multi-Dice Game exercise below with multiDiceMultiPlayerMain as the main function.
+
+// Introduce new game mode, choose num players
+var GAME_MODE_ENTER_NUM_PLAYERS = "ENTER_NUM_PLAYERS";
+// Name the game mode variable multiPlayerGameMode to deconflict with gameMode variable above
+var multiPlayerGameMode = GAME_MODE_ENTER_NUM_PLAYERS;
+// Introduce new global that stores number of players playing
+var numPlayers;
+// Keep track of all players' win-loss records in arrays
+var numRoundsPlayedByEachPlayer = [];
+var numWinsOfEachPlayer = [];
+
+// Give this function a different name from 2-player multi-dice game to deconflict
+var incrementNumRoundsPlayedByCurrPlayer = function () {
+  var currPlayerIndex = currPlayer - 1;
+  numRoundsPlayedByEachPlayer[currPlayerIndex] += 1;
+};
+
+// Give this function a different name from 2-player multi-dice game to deconflict
+var incrementNumWinsOfCurrPlayer = function () {
+  var currPlayerIndex = currPlayer - 1;
+  numWinsOfEachPlayer[currPlayerIndex] += 1;
+};
+
+// Output current player's result and all players' win-loss records.
+var generateOutputMessage = function (
+  userGuess,
+  diceRollsForCurrRound,
+  nextPlayer
+) {
+  var playerWinLossRecordsOutput = "";
+  for (var playerCounter = 0; playerCounter < numPlayers; playerCounter += 1) {
+    // Create a string with all players' win loss record
+    var playerNum = playerCounter + 1;
+    var playerNumWins = numWinsOfEachPlayer[playerCounter];
+    var playerNumLosses =
+      numRoundsPlayedByEachPlayer[playerCounter] - playerNumWins;
+    // Add the current player's win-loss record to the output string
+    playerWinLossRecordsOutput += `Player ${playerNum} win-loss record is ${playerNumWins}-${playerNumLosses}. <br/><br/>`;
+  }
+  // .join converts an array to a string where each element is separated by the param to .join.
+  return `
+    Player ${currPlayer}: You guessed ${userGuess} and the computer rolled ${diceRollsForCurrRound.join(
+    " | "
+  )}. <br/><br/>
+    ${playerWinLossRecordsOutput}
+    Player ${nextPlayer}: Please enter a number of dice to roll for your turn.
+  `;
 };
 
 var multiDiceMultiPlayerMain = function (input) {
   // Complete the More Comfortable: Multi-Player Multi-Round Multi-Dice Game exercise below with multiDiceMultiPlayerMain as the main function.
-  var myOutputValue = 'hello world';
-  return myOutputValue;
+
+  // This game mode only appears once at the beginning of the game.
+  if (multiPlayerGameMode == GAME_MODE_ENTER_NUM_PLAYERS) {
+    // Save input as numPlayers
+    numPlayers = Number(input);
+    // Initialise numRoundsPlayerByEachPlayer to empty array of length numPlayers with values of 0
+    numRoundsPlayedByEachPlayer = Array(numPlayers).fill(0);
+    // Initialise numWinsOfEachPlayer to empty array of length numPlayers with values of 0
+    numWinsOfEachPlayer = Array(numPlayers).fill(0);
+    // Change game mode to enter num dice
+    multiPlayerGameMode = GAME_MODE_ENTER_NUM_DICE;
+    return `
+      You have chosen to play with ${numPlayers} players. <br/><br/>
+      Player ${currPlayer}: Please enter the number of dice you want to roll.
+    `;
+  }
+
+  if (multiPlayerGameMode == GAME_MODE_ENTER_NUM_DICE) {
+    // Save input as numDice
+    numDice = Number(input);
+    // Change game mode to enter guess
+    multiPlayerGameMode = GAME_MODE_ENTER_GUESS;
+    return `Player ${currPlayer}: You have chosen to roll ${numDice} dice. Please enter a single guess for all of these dice.`;
+  }
+
+  // The following code assumes ENTER_GUESS game mode
+  // because we return at the end of the previous if statement
+  var userGuess = Number(input);
+
+  // Store all dice rolls for each round so user can see how they won or lost.
+  var diceRollsForEachRound = [];
+
+  // Play numRounds rounds with a fixed number of dice and a fixed user guess
+  var numRounds = 4;
+  for (var roundCounter = 0; roundCounter < numRounds; roundCounter += 1) {
+    // Initialise diceRolls array to store dice rolls for this round
+    diceRolls = [];
+    // Initialise hasUserWon to false for this round
+    hasUserWon = false;
+    // Increment number of rounds the user has played for win loss record
+    incrementNumRoundsPlayedByCurrPlayer();
+
+    // Roll numDice number of dice
+    for (var diceCounter = 0; diceCounter < numDice; diceCounter += 1) {
+      var diceRoll = rollDice();
+      // Store the current dice roll in diceRolls to show the user later
+      diceRolls.push(diceRoll);
+      // If dice roll matches user guess, store that user has won.
+      if (diceRoll == userGuess) {
+        hasUserWon = true;
+      }
+    }
+
+    // Push the populated dice rolls array into the dice rolls for each round array
+    diceRollsForEachRound.push(diceRolls);
+    // Increment win counter if user has won
+    if (hasUserWon) {
+      incrementNumWinsOfCurrPlayer();
+    }
+  }
+
+  // After numRounds, reset mode to enter num dice for next player's turn
+  multiPlayerGameMode = GAME_MODE_ENTER_NUM_DICE;
+  // Next player is the current player + 1, or 1 if current player is the last player.
+  var nextPlayer = (currPlayer % numPlayers) + 1;
+  // Generate output message based on current game state
+  var outputMessage = generateOutputMessage(
+    userGuess,
+    diceRollsForEachRound,
+    nextPlayer
+  );
+  // Update currPlayer to nextPlayer before next turn
+  currPlayer = nextPlayer;
+  // Display output message to players
+  return outputMessage;
 };
-*/
+
+// ========================================================================================================================================
